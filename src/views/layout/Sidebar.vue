@@ -1,17 +1,19 @@
 <template>
   <el-menu mode="vertical" theme="dark" :default-active="$route.path">
-    <sidebar-item :routes="routes"></sidebar-item>
+    <sidebar-item :routes="roles"></sidebar-item>
   </el-menu>
 </template>
 
 <script>
 import SidebarItem from './SidebarItem'
+import { mapGetters } from 'vuex'
+
 export default {
   components: { SidebarItem },
   computed: {
-    routes() {
-      return this.$router.options.routes
-    }
+    ...mapGetters([
+      'roles'
+    ])
   }
 }
 </script>

@@ -7,7 +7,7 @@
         <span class="svg-container svg-container_login">
           <icon-svg icon-class="yonghuming" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+        <el-input name="username" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="手机号" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -26,14 +26,13 @@
 </template>
 
 <script>
-import { isvalidUsername } from '@/utils/validate'
 
 export default {
   name: 'login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+      if (value.length !== 11) {
+        callback(new Error('请输入正确的手机号'))
       } else {
         callback()
       }
@@ -47,11 +46,11 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        mobile: '15210015381',
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
       loading: false

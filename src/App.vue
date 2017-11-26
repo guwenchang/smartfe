@@ -1,30 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <div>
-      <el-button @click="startHacking">Start</el-button>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    startHacking () {
-      this.$notify({
-        title: 'It works!',
-        type: 'success',
-        message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
-        duration: 5000
-      })
-    }
-  }
+  name: 'app'
 }
 </script>
 
-<style>
-#app {
-  font-family: Helvetica, sans-serif;
-  text-align: center;
-}
+<style lang="scss">
+  @import '~normalize.css/normalize.css';// normalize.css 样式格式化
+  @import './styles/index.scss'; // 全局自定义的css样式
 </style>

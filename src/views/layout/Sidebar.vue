@@ -1,5 +1,5 @@
 <template>
-  <el-menu mode="vertical" theme="dark" :default-active="$route.path">
+  <el-menu mode="vertical" theme="dark" unique-opened :default-active="$route.path" :collapse="isCollapse">
     <sidebar-item :routes="roles"></sidebar-item>
   </el-menu>
 </template>
@@ -12,8 +12,12 @@ export default {
   components: { SidebarItem },
   computed: {
     ...mapGetters([
-      'roles'
-    ])
+      'roles',
+      'sidebar'
+    ]),
+    isCollapse() {
+      return !this.sidebar.opened
+    }
   }
 }
 </script>

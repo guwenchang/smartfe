@@ -23,39 +23,21 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
+    name: '首页',
     hidden: true,
     children: [{ path: 'dashboard', component: _import('dashboard/index') }]
   },
-
   {
-    path: '/example',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'Example',
-    icon: 'system',
-    children: [
-      { path: 'index', name: 'Form', icon: 'zonghe', component: _import('page/form') }
-    ]
-  },
-  {
-    path: '/',
+    path: '/sys',
     component: Layout,
     name: '系统管理',
     children: [
-      { path: '/user/list', component: _import('page/form'), name: '用户列表' }
+      { path: 'user/list', component: _import('page/form'), name: '用户列表' },
+      { path: 'role/list', component: _import('page/form'), name: '角色列表' },
+      { path: 'menu/list', component: _import('page/form'), name: '菜单列表' },
+      { path: 'dic/list', component: _import('page/form'), name: '字典列表' }
     ]
   },
-  //
-  // {
-  //   path: '/table',
-  //   component: Layout,
-  //   redirect: '/table/index',
-  //   icon: 'tubiao',
-  //   noDropdown: true,
-  //   children: [{ path: 'index', name: 'Table', component: _import('table/index'), meta: { role: ['admin']}}]
-  // },
-
   { path: '*', redirect: '/404', hidden: true }
 ]
 

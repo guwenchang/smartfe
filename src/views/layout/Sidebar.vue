@@ -1,5 +1,9 @@
 <template>
-  <el-menu mode="vertical" theme="dark" unique-opened :default-active="$route.path" :collapse="isCollapse">
+  <el-menu mode="vertical"
+           background-color="#334156"
+           text-color="#BFCBD9"
+           active-text-color="#318CFC"
+           unique-opened :default-active="$route.path" :collapse="isCollapse">
     <sidebar-item :routes="roles"></sidebar-item>
   </el-menu>
 </template>

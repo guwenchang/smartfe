@@ -19,7 +19,6 @@
 
           <router-link v-else :to="child.url">
             <el-menu-item :index="child.url">
-              <icon-svg v-if='child.icon' :icon-class="child.icon"></icon-svg>
               <span>{{child.name}}</span>
             </el-menu-item>
           </router-link>

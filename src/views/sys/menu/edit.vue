@@ -37,7 +37,7 @@
         <div class="mt-header">
           选择父级
         </div>
-        <el-tree :data="menuList" :highlight-current="true" :props="labelProps" @node-click="handleNodeClick"></el-tree>
+        <el-tree :data="menuList" :highlight-current="true" default-expand-all="true" :props="labelProps" @node-click="handleNodeClick"></el-tree>
         <div class="mt-footer">
           <a @click="visibleTree(false)">取消</a>
           <el-button @click="parentTrue()">确定</el-button>
@@ -109,6 +109,8 @@
           getMenuDetail(id).then(response => {
             this.data = response.data
           })
+        }else {
+          this.pMenu = {}
         }
         this.menuList = items
         this.dialogFormVisible = true

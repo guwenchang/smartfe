@@ -41,7 +41,7 @@
             <el-table-column>
               <template slot-scope="scope">
                 <div class="pl-5">
-                  <el-button>编辑</el-button>
+                  <el-button type="primary" @click="openDialog(scope.row.id)">编辑</el-button>
                 </div>
               </template>
             </el-table-column>

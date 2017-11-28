@@ -23,3 +23,26 @@ export function saveMenu(params) {
   })
 }
 
+// 角色列表
+export function getRoleList() {
+  return fetch({
+    url: '/sysRole/list',
+    method: 'get'
+  })
+}
+// 角色详情
+export function getRoleDetail(params) {
+  return fetch({
+    url: '/sysRole/detail/' + params,
+    method: 'get'
+  })
+}
+// 角色保存
+export function saveRole(params) {
+  return fetch({
+    url: '/sysMenu/save',
+    method: 'post',
+    data: params
+  })
+}
+

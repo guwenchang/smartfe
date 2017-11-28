@@ -1,54 +1,55 @@
- <template>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
-      <el-form :model="data" status-icon :rules="rules" ref="menu" label-width="80px">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="data.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-radio-group v-model="data.type">
-            <el-radio :label="0">目录 </el-radio>
-            <el-radio :label="1">菜单</el-radio>
-            <el-radio :label="2">按钮</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="父级">
-          <el-button @click="visibleTree(true)">选择父级</el-button>
-          <label>{{pMenu.name}}</label>
-        </el-form-item>
-        <el-form-item label="权限地址">
-          <el-input v-model="data.url" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="权限编码">
-          <el-input v-model="data.perms" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="排序">
-          <el-input v-model="data.orderNum" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="权限icon">
-          <el-input v-model="data.icon" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="close()">取 消</el-button>
-        <el-button type="primary"  @click="save('menu')">确 定</el-button>
-      </div>
+<template>
+  <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-form :model="data" status-icon :rules="rules" ref="menu" label-width="80px">
+      <el-form-item label="名称" prop="name">
+        <el-input v-model="data.name" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="类型" prop="type">
+        <el-radio-group v-model="data.type">
+          <el-radio :label="0">目录 </el-radio>
+          <el-radio :label="1">菜单</el-radio>
+          <el-radio :label="2">按钮</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="父级">
+        <el-button @click="visibleTree(true)">选择父级</el-button>
+        <label>{{pMenu.name}}</label>
+      </el-form-item>
+      <el-form-item label="权限地址">
+        <el-input v-model="data.url" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="权限编码">
+        <el-input v-model="data.perms" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="排序">
+        <el-input v-model="data.orderNum" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="权限icon">
+        <el-input v-model="data.icon" auto-complete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="close()">取 消</el-button>
+      <el-button type="primary" @click="save('menu')">确 定</el-button>
+    </div>
 
-      <div class="tree" v-if="showTree">
-        <div class="mt-header">
-          选择父级
-        </div>
-        <el-tree :data="menuList" :highlight-current="true" default-expand-all="true" :props="labelProps" @node-click="handleNodeClick"></el-tree>
-        <div class="mt-footer">
-          <a @click="visibleTree(false)">取消</a>
-          <el-button @click="parentTrue()">确定</el-button>
-        </div>
+    <div class="tree" v-if="showTree">
+      <div class="mt-header">
+        选择父级
       </div>
+      <el-tree :data="menuItems" :highlight-current="true" :default-expand-all="true" :props="labelProps"
+               @node-click="handleNodeClick"></el-tree>
+      <div class="mt-footer">
+        <a @click="visibleTree(false)">取消</a>
+        <el-button @click="parentTrue()">确定</el-button>
+      </div>
+    </div>
 
-    </el-dialog>
+  </el-dialog>
 </template>
 
 <script>
-  import { getMenuDetail } from '@/api/sys'
+  import { getMenuDetail, saveMenu } from '@/api/sys'
 
   export default {
     // 组件名称
@@ -58,8 +59,8 @@
       return {
         rules: {
           name: [
-            {required: true, message: '请输入名称', trigger: 'blur'},
-            {min: 2, max: 10, message: '名称在 2 到 10 个字符', trigger: 'blur'}
+            { required: true, message: '请输入名称', trigger: 'blur' },
+            { min: 2, max: 10, message: '名称在 2 到 10 个字符', trigger: 'blur' }
           ]
         },
         labelProps: {
@@ -70,7 +71,7 @@
         dialogFormVisible: false,
         showTree: false,
         data: {},
-        menuList: []
+        menuItems: []
       }
     },
     props: {
@@ -89,6 +90,25 @@
     computed: {},
     // 方法
     methods: {
+      save(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.fetchSaveMenu()
+          } else {
+            return false
+          }
+        })
+      },
+      fetchSaveMenu() {
+        saveMenu(this.data).then(response => {
+          this.$message({
+            message: `${this.title}成功消息`,
+            type: 'success'
+          })
+          this.$emit('fetchGo')
+          this.close()
+        })
+      },
       // 控制父级树
       visibleTree(bl) {
         this.showTree = bl
@@ -108,12 +128,18 @@
         if (id) {
           getMenuDetail(id).then(response => {
             this.data = response.data
+            this.pMenu.name = response.data.parentName
           })
-        }else {
+        } else {
+          this.data = {}
           this.pMenu = {}
         }
-        this.menuList = items
+        this.menuItems = Object.assign(this.menuItems, items)
+        this.menuItems.unshift({'id': 0, 'name': '根节点'})
         this.dialogFormVisible = true
+      },
+      close() {
+        this.dialogFormVisible = false
       }
     }
   }
@@ -151,7 +177,7 @@
       a {
         cursor: pointer;
         &:hover {
-          color: rgb(255, 208, 75);
+          color: #00AAFF;
         }
       }
     }

@@ -40,7 +40,7 @@ export function getRoleDetail(params) {
 // 角色保存
 export function saveRole(params) {
   return fetch({
-    url: '/sysMenu/save',
+    url: '/sysRole/save',
     method: 'post',
     data: params
   })

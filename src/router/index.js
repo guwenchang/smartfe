@@ -33,8 +33,8 @@ export const constantRouterMap = [
     name: '系统管理',
     children: [
       { path: 'user/list', component: _import('page/form'), name: '用户列表' },
-      { path: 'role/list', component: _import('sys/role/list'), name: '角色列表' },
-      { path: 'menu/list', component: _import('sys/menu/list'), name: '菜单列表' },
+      { path: 'role/list', component: _import('sys/role/index'), name: '角色列表' },
+      { path: 'menu/list', component: _import('sys/menu/index'), name: '菜单列表' },
       { path: 'dic/list', component: _import('page/form'), name: '字典列表' }
     ]
   },

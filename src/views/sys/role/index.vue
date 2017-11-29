@@ -1,40 +1,72 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible">
-    <el-form :model="roleForm" status-icon :rules="rules" ref="role" label-width="80px">
-      <el-form-item label="角色名称" prop="roleName">
-        <el-input v-model="roleForm.roleName" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="角色描述">
-        <el-input v-model="roleForm.remark" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="角色权限" prop="type">
-        <el-tree
-          :data="menuItems"
-          show-checkbox
-          node-key="id"
-          :default-expanded-keys="[2, 3]"
-          :default-checked-keys="roleForm.menuIds"
-          :props="defaultProps"
-          ref="tree">
-        </el-tree>
-      </el-form-item>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="close()">取 消</el-button>
-      <el-button type="primary" @click="save('role')">确 定</el-button>
-    </div>
-  </el-dialog>
+  <div>
+
+    <el-button type="primary" @click="openDialog()"><i class="el-icon-plus container_header_buttons"></i>新建</el-button>
+    <el-table
+      :data="roleList"
+      style="width: 100%">
+      <el-table-column
+        label="序号"
+        prop="id">
+      </el-table-column>
+      <el-table-column
+        label="名称"
+        prop="roleName">
+      </el-table-column>
+      <el-table-column
+        label="描述"
+        prop="remark">
+      </el-table-column>
+      <el-table-column
+        label="创建时间"
+        prop="createTime">
+      </el-table-column>
+      <el-table-column
+        label="操作">
+        <template slot-scope="props">
+          <el-button type="primary" @click="openDialog(props.row.id)">编辑</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+      <el-form :model="roleForm" status-icon :rules="rules" ref="role" label-width="80px">
+        <el-form-item label="角色名称" prop="roleName">
+          <el-input v-model="roleForm.roleName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="角色描述">
+          <el-input v-model="roleForm.remark" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="角色权限" prop="type">
+          <el-tree
+            :data="menuItems"
+            show-checkbox
+            node-key="id"
+            :default-expanded-keys="[2, 3]"
+            :default-checked-keys="roleForm.menuIds"
+            :props="defaultProps"
+            ref="tree">
+          </el-tree>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="close()">取 消</el-button>
+        <el-button type="primary" @click="save('role')">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
-  import { getRoleDetail, saveRole, getMenuList } from '@/api/sys'
+  import { getRoleList, getRoleDetail, saveRole, getMenuList } from '@/api/sys'
 
   export default {
     // 组件名称
-    name: 'RoleEdit',
+    name: 'MenuList',
     // 组件数据
     data() {
       return {
+        roleList: [],
+        title: '添加角色',
         rules: {
           roleName: [
             { required: true, message: '请输入角色名称', trigger: 'blur' }
@@ -49,23 +81,31 @@
         roleForm: {}
       }
     },
-    props: {
-      title: {
-        type: String,
-        default: '添加角色'
-      }
-    },
     // 子组件列表
     components: {},
     // 组件实例被创建之后被调用
     created() {
-      console.log('edit created')
+      console.log('created')
+      this.initRoleList()
       this.initMenuItems()
     },
     // 计算属性
     computed: {},
     // 方法
     methods: {
+      openDialog(id) {
+        if (!id) {
+          this.title = '添加角色'
+        } else {
+          this.title = '编辑角色'
+        }
+        this.modalInit(id)
+      },
+      initRoleList() {
+        getRoleList().then(response => {
+          this.roleList = response.data
+        })
+      },
       initMenuItems() {
         getMenuList().then(response => {
           this.menuItems = response.data
@@ -99,7 +139,7 @@
             message: `${this.title}成功消息`,
             type: 'success'
           })
-          this.$emit('fetchGo')
+          this.initRoleList()
           this.close()
         })
       },
@@ -123,6 +163,7 @@
     }
   }
 </script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel='stylesheet/scss'>
   .tree {
     position: absolute;

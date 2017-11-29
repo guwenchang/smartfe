@@ -47,6 +47,15 @@ Object.keys(proxyTable).forEach(function (context) {
   }
   app.use(proxyMiddleware(options.filter || context, options))
 })
+// 代理
+app.use('/api/', proxyMiddleware({
+  // target: "http://192.168.1.234:8093/",
+  // changeOrigin: true,
+  target: "http://localhost:9001/",
+  pathRewrite: {
+    '/api': ''
+  }
+}));
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())

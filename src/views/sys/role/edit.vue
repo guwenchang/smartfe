@@ -18,12 +18,11 @@
           ref="tree">
         </el-tree>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>取消</el-button>
-      </el-form-item>
     </el-form>
-
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="close()">取 消</el-button>
+      <el-button type="primary" @click="save('role')">确 定</el-button>
+    </div>
   </el-dialog>
 </template>
 
@@ -60,6 +59,8 @@
     components: {},
     // 组件实例被创建之后被调用
     created() {
+      console.log('edit created')
+      this.initMenuItems()
     },
     // 计算属性
     computed: {},
@@ -107,8 +108,17 @@
       },
       modalInit(id) {
         this.dialogFormVisible = true
-        this.initMenuItems()
         this.roleDetail(id)
+      }
+    },
+    watch: {
+      'roleForm.menuIds': {
+        deep: true,
+        handler(newVal, oldVal) {
+          if (oldVal) {
+            this.$refs.tree.setCheckedKeys(newVal)
+          }
+        }
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-button type="primary" @click="openDialog()"><i class="el-icon-plus container_header_buttons"></i>新建</el-button>
+    <el-button type="primary" @click="openDialog()"><i class="el-icon-plus"></i>新建</el-button>
     <el-table
       :data="roleList"
       style="width: 100%">
@@ -114,8 +114,9 @@
       // 开始
       roleDetail(id) {
         if (!id) {
-          this.roleForm = {}
-          this.roleForm.menuIds = []
+          this.roleForm = {
+            menuIds: []
+          }
         } else {
           getRoleDetail(id).then(response => {
             this.roleForm = response.data
@@ -155,7 +156,7 @@
       'roleForm.menuIds': {
         deep: true,
         handler(newVal, oldVal) {
-          if (oldVal) {
+          if (this.$refs.tree) {
             this.$refs.tree.setCheckedKeys(newVal)
           }
         }

@@ -46,3 +46,50 @@ export function saveRole(params) {
   })
 }
 
+// 系统用户列表
+export function getUserList(params) {
+  return fetch({
+    url: '/sysUser/list',
+    method: 'post',
+    data: params
+  })
+}
+// 系统用户详情
+export function getUserDetail(params) {
+  return fetch({
+    url: '/sysUser/detail/' + params,
+    method: 'get'
+  })
+}
+// 系统用户保存
+export function saveUser(params) {
+  return fetch({
+    url: '/sysUser/save',
+    method: 'post',
+    data: params
+  })
+}
+// 字典列表
+export function getDicList(params) {
+  return fetch({
+    url: '/dic/list',
+    method: 'post',
+    data: params
+  })
+}
+// 字典详情
+export function getDicDetail(params) {
+  return fetch({
+    url: '/dic/detail/' + params,
+    method: 'get'
+  })
+}
+// 字典保存
+export function saveDic(params) {
+  return fetch({
+    url: '/dic/save',
+    method: 'post',
+    data: params
+  })
+}
+

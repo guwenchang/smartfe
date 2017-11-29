@@ -32,7 +32,6 @@ const user = {
         login(userInfo).then(response => {
           const data = response.data
           setToken(data.token)
-          debugger
           commit('SET_TOKEN', data.token)
           commit('SET_NAME', data.user.realName)
           commit('SET_AVATAR', data.user.avatar)

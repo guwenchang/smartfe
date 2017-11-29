@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-button type="primary" @click="openDialog()"><i class="el-icon-plus container_header_buttons"></i>新建</el-button>
+    <el-button type="primary" @click="openDialog()"><i class="el-icon-plus"></i>新建</el-button>
     <el-table
       :data="menuList"
       style="width: 100%" class="el-table__expanded-cell-mt">

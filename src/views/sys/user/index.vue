@@ -19,10 +19,10 @@
       label="手机号">
     </el-table-column>
     <el-table-column
-      prop="isStop"
+      prop="stopFlag"
       label="状态">
       <template slot-scope="scope">
-        {{scope.row.isStop ? '禁用' : '正常'}}
+        {{scope.row.stopFlag ? '禁用' : '正常'}}
       </template>
     </el-table-column>
     <el-table-column
@@ -140,7 +140,7 @@
         if (!id) {
           this.userForm = {
             roleIds: [],
-            isStop: false
+            stopFlag: false
           }
         } else {
           getUserDetail(id).then(response => {
